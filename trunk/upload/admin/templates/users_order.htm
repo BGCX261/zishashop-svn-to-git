@@ -1,0 +1,48 @@
+<!-- $Id: users_order.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+<div class="form-div">
+  <form action="users_order.php" method="post" style="margin:0px">
+    {$lang.start_date}&nbsp;
+    <input name="start_date" type="text" id="start_date" size="15" value='{$start_date}' readonly="readonly" /><input name="selbtn1" type="button" id="selbtn1" onclick="return showCalendar('start_date', '%Y-%m-%d', false, false, 'selbtn1');" value="{$lang.btn_select}" class="button"/>&nbsp;&nbsp;
+    {$lang.end_date}&nbsp;
+    <input name="end_date" type="text" id="end_date" size="15" value='{$end_date}' readonly="readonly" /><input name="selbtn2" type="button" id="selbtn2" onclick="return showCalendar('end_date', '%Y-%m-%d', false, false, 'selbtn2');" value="{$lang.btn_select}" class="button"/>&nbsp;&nbsp;
+    {$lang.show_num}
+    <input type="text" name="show_num" value="{$show_num}" size="8" />
+    <input type="hidden" name="act" value="{$form_act}"/>
+    <input type="submit" name="submit" value="{$lang.query}" class="button" />
+  </form>
+</div>
+<div class="list-div">
+  <table width="100%" cellpadding="3" cellspacing="1">
+     <tr>
+      <th>{$lang.order_by}</th>
+      <th>{$lang.member_name}</th>
+      <th>{$lang.order_amount}</th>
+      <th>{$lang.buy_sum}</th>
+    </tr>
+  {foreach from=$user_orderinfo name=val item=list}
+    <tr align="right">
+      <td align="center">{$smarty.foreach.val.iteration}</td>
+      <td align="left">{$list.user_name}</td>
+      <td>{$list.order_num}</td>
+      <td>{$list.turnover}</td>
+    </tr>
+  {foreachelse}
+    <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+  </table>
+</div>
+{literal}
+<script type="Text/Javascript" language="JavaScript">
+<!--
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+//-->
+</script>
+{/literal}
+{include file="pagefooter.htm"}

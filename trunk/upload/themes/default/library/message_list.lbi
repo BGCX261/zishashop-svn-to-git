@@ -1,0 +1,24 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="box">
+     <div class="box_1">
+      <h3><span>{$lang.message_board}</span></h3>
+      <div class="boxCenterList">
+      <!--{foreach name=message_lists from=$msg_lists key=key item=msg}-->
+      <div class="f_l">
+      [<b>{$msg.msg_type}</b>]&nbsp;{$msg.user_name}：&nbsp;&nbsp;<font class="f4">{$msg.msg_title}</font> ({$msg.msg_time})
+      </div>
+      <div class="msgBottomBorder word">
+      {$msg.msg_content}<br>
+      <!-- {if $msg.re_msg_content} -->
+       <font class="f2">{$lang.shopman_reply}</font><br />
+       {$msg.re_msg_content}
+      <!-- {/if} -->
+      </div>
+      <!--{/foreach}-->  
+    </div>
+  </div>
+</div>
+<div class="blank5"></div>
+
+
+

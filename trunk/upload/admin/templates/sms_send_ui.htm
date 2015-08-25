@@ -1,0 +1,69 @@
+<!-- $Id: sms_send_ui.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+
+<div class="main-div" id="sms-send">
+<form method="POST" action="sms.php?act=send_sms" name="sms-send-form" onsubmit="return validate();">
+<table >
+  <tr>
+    <td colspan="2" align="center">{$lang.msg_price}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.phone}:</td>
+    <td><textarea name="phone" rows="3" cols="32"></textarea>{$lang.require_field} {$lang.phone_notice}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.msg}:</td>
+    <td><textarea name="msg" rows="6" cols="32"></textarea>{$lang.require_field} {$lang.msg_notice}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.send_date}:</td>
+    <td><input type="text" name="send_date" maxlength="20" size="34" value="" />&nbsp;&nbsp;&nbsp;&nbsp;{$lang.send_date_notice}</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <input type="submit" name="submit" value="{$lang.button_submit}" class="button" />
+      <input type="reset" value="{$lang.button_reset}" class="button" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+
+<script type="text/javascript" language="JavaScript">
+<!--
+{literal}
+function  validate() {
+  var f = document['sms-send-form'],
+  phone = f.phone.value,
+  msg = f.msg.value,
+  send_date = f.send_date.value;
+
+  var reEmpty = /^\s*$/,
+      rePhoneFormat = /^\d+(?:,\d+)*$/,
+      reDateFormat = /^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}$/,
+      errorStr = '';
+  if (reEmpty.test(phone)) {
+    errorStr += phone_empty_error + "\n";
+  } else if (!rePhoneFormat.test(phone)) {
+    errorStr += phone_format_error + "\n";
+  }
+
+  if (reEmpty.test(msg)) {
+    errorStr +=  msg_empty_error + "\n";
+  }
+
+  if (!reEmpty.test(send_date) && !reDateFormat.test(send_date)) {
+    errorStr += send_date_format_error + "\n";
+  }
+
+  if (errorStr === '') {
+    return true;
+  } else {
+    alert(errorStr);
+    return false;
+  }
+}
+{/literal}
+//-->
+</script>
+{include file="pagefooter.htm"}

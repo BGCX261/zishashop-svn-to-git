@@ -1,0 +1,111 @@
+<!-- $Id: templates_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+<!-- start templates list -->
+<div class="list-div">
+  <table width="100%" cellpadding="3" cellspacing="1">
+  <tr><th>{$lang.current_template}</th></tr>
+  <tr><td>
+    <table>
+      <tr>
+        <td width="250" align="center"><img id="screenshot" src="{$curr_template.screenshot}"/></td>
+        <td valign="top"><strong><span id="templateName">{$curr_template.name}</span></strong> v<span id="templateVersion">{$curr_template.version}</span><br />
+          <span id="templateAuthor"><a href="{$curr_template.uri}" target="_blank">{$curr_template.author}</a></span><br />
+          <span id="templateDesc">{$curr_template.desc}</span><br />
+          <span><input class="button" onclick="backupTemplate('{$curr_template.code}')" value="{$lang.backup}" type="button" id="backup" /></span>
+        </td></tr>
+    </table>
+  </td></tr>
+  <tr><th>{$lang.available_templates}</th></tr>
+  <tr><td>
+  {foreach from=$available_templates item=template}
+    <table style="float:left; width: 220px;">
+    <tr>
+      <td><strong><a href="{$template.uri}" target="_blank">{$template.name}</a></strong></td>
+    </tr>
+    <tr>
+      <td>{if $template.screenshot}<a href="javascript:setupTemplate('{$template.code}')"><img src="{$template.screenshot}" border="0" /></a>{/if}</td>
+    </tr>
+    <tr>
+      <td valign="top" style="height:60px;">{$template.desc}</td>
+    </tr>
+    </table>
+  {/foreach}
+  </td></tr>
+  </table>
+</div>
+<!-- end templates list -->
+
+<script language="JavaScript">
+<!--
+{literal}
+
+onload = function()
+{
+  // 开始检查订单
+  startCheckOrder();
+}
+
+/**
+ * 安装模版
+ */
+function setupTemplate(tpl)
+{
+  if (confirm(setupConfirm))
+  {
+    Ajax.call('template.php?is_ajax=1&act=install', 'tpl_name=' + tpl, setupTemplateResponse, 'GET', 'JSON');
+  }
+}
+
+/**
+ * 处理安装模版的反馈信息
+ */
+function setupTemplateResponse(result)
+{
+  if (result.message.length > 0)
+  {
+    alert(result.message);
+  }
+
+  if (result.error == 0)
+  {
+    showTemplateInfo(result.content);
+  }
+}
+
+/**
+ * 备份当前模板
+ */
+function backupTemplate(tpl)
+{
+    Ajax.call('template.php?is_ajax=1&act=backup', 'tpl_name=' + tpl, backupTemplateResponse, "GET", "JSON");
+}
+
+function backupTemplateResponse(result)
+{
+  if (result.message.length>0)
+  {
+    alert(result.message);
+  }
+
+  if (result.error == 0)
+  {
+    location.href = result.content;
+  }
+}
+
+/**
+ * 显示模板信息
+ */
+function showTemplateInfo(res)
+{
+  document.getElementById("screenshot").src = res.screenshot;
+  document.getElementById("templateName").innerHTML    = res.name;
+  document.getElementById("templateDesc").innerHTML    = res.desc;
+  document.getElementById("templateVersion").innerHTML = res.version;
+  document.getElementById("templateAuthor").innerHTML  = '<a href="' + res.uri + '" target="_blank">' + res.author + '</a>';
+  document.getElementById("backup").onclick = function () {backupTemplate(res.code);};
+}
+//-->
+{/literal}
+</script>
+{include file="pagefooter.htm"}
